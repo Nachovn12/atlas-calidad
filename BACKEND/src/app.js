@@ -1,7 +1,9 @@
+
 const path = require("path");
 const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const morgan = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 
@@ -20,6 +22,8 @@ const metricasRoutes = require("./routes/metricas");
 
 const app = express();
 
+// Encabezados de seguridad con Helmet
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
@@ -40,6 +44,7 @@ app.use("/metricas", metricasRoutes);
 
 const openapi = require("./openapi.json");
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi));
+
 app.get("/openapi.json", (req, res) => {
   res.json(openapi);
 });
