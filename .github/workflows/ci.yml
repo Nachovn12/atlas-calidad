@@ -13,7 +13,7 @@ permissions:
 jobs:
   secretos:
     name: 1a · Secretos (Gitleaks)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -26,7 +26,7 @@ jobs:
 
   dockerfiles:
     name: 1b · Dockerfiles (Hadolint)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Revisar Dockerfile del backend
@@ -41,7 +41,7 @@ jobs:
   pruebas-codigo:
     name: 2 · Unitarias + Integración (Jest) y SonarQube
     needs: [secretos, dockerfiles]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -85,7 +85,7 @@ jobs:
   pruebas-sistema:
     name: 3 · Sistema, aceptación, rendimiento y seguridad
     needs: [pruebas-codigo]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
@@ -153,7 +153,7 @@ jobs:
     name: 4 · Publicar imágenes Docker (GHCR)
     needs: [pruebas-sistema]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
